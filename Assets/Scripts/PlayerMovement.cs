@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Rigidbody")]
     public Rigidbody rb;
+    RigidbodyConstraints rbConstraints;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -36,6 +37,23 @@ public class PlayerMovement : MonoBehaviour
             audioSource.PlayOneShot(wingAudio);
         }
       
+        if(Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.Space))
+        {
+            GetComponent<BoxCollider>().enabled = false;
+            rbConstraints = rb.constraints;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GetComponent<BoxCollider>().enabled = true;
+            rb.constraints = rbConstraints;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z) && GetComponent<BoxCollider>().enabled == false)
+        {
+            rb.constraints = rb.constraints == rbConstraints ? RigidbodyConstraints.FreezeAll : rbConstraints;
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
